@@ -1,40 +1,36 @@
+
+import Regras.regras;
+import Utils.UtilsConsole;
+
+import java.util.Scanner;
+
 void main() {
+
     Scanner scanner = new Scanner(System.in);
-    System.out.println("Welcome to Battle chip !");
+    UtilsConsole utilsConsole = new UtilsConsole();
 
-    String[][] matrizBi = new String[10][10];
+    while (true) {
 
-    System.out.println("Qual é a sua cordenada X ? :");
-    int cordenadaX = scanner.nextInt();
+        System.out.println("\n--- Welcome to Battle Chip! ---");
+        System.out.println("1. Jogar");
+        System.out.println("2. Regras do Jogo");
+        System.out.println("3. Sair");
+        System.out.print("Escolha uma opção: ");
 
-    System.out.println("Qual é a sua cordenada Y ? :");
-    int cordenadaY = scanner.nextInt();
-
-    for(int i = 0; i < matrizBi.length; i++){
-        for(int j = 0; j < matrizBi[0].length; j++){
-            System.out.print(matrizBi[i][j] = "o" + " ");
-            matrizBi[cordenadaX][cordenadaY] = "X";
+        int escolha = scanner.nextInt();
+        switch (escolha) {
+            case 1:
+                Jogo.iniciarJogo(scanner, utilsConsole); // Passa o scanner para o método
+                break;
+            case 2:
+                regras.mostrarRegras();
+                break;
+            case 3:
+                System.out.println("Obrigado por jogar!");
+                scanner.close();
+                return;
+            default:
+                System.out.println("Opção inválida. Por favor, tente novamente.");
         }
-        System.out.println();
     }
-
-    System.out.println("===================");
-
-    for(int i = 0; i < matrizBi.length; i++){
-        for(int j = 0; j < matrizBi[0].length; j++){
-            System.out.print(matrizBi[i][j] = "0" + " ");
-            matrizBi[cordenadaX][cordenadaY] = "X";
-        }
-        System.out.println();
-    }
-
-
-
-
-
-
-
-
-
 }
-
