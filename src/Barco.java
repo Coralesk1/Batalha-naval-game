@@ -1,5 +1,6 @@
 public class Barco {
 
+
     public enum TipoBarco {
         PORTA_AVIOES("Porta-Aviões", 5),
         CRUZADOR("Cruzador", 3),
@@ -9,6 +10,7 @@ public class Barco {
 
         private final String nome;
         private final int tamanho;
+        private int vida;
 
         TipoBarco(String nome, int tamanho) {
             this.nome = nome;
