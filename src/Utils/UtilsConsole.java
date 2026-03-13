@@ -11,7 +11,9 @@ public class UtilsConsole {
 
     public void mostraMatriz(){
 
-        int[][] matrizBi = new int[10][10];
+        char[][] matrizBi = new char[10][10];
+        Tabuleiro tabuleiro = new Tabuleiro();
+
 
         for(int i = 0; i < matrizBi.length; i++){
 

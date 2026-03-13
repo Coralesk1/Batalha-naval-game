@@ -17,6 +17,7 @@ public class Jogo {
         jogador2 = new Jogador(new Tabuleiro());
 
         System.out.println("----PREPARAÇÃO DO JOGADOR 1----");
+        utilsConsole.mostraMatriz();
         preparaJogador(jogador1, scanner);
 
         System.out.println("----PREPARAÇÃO DO JOGADOR 2----");
@@ -49,6 +50,8 @@ public class Jogo {
     public static void preparaJogador( Jogador jogador, Scanner scanner) {
 
         System.out.println("Posicione seus barcos no tabuleiro.");
+
+
 
         System.out.println("Posição da linha [0-9] ");
         int linha = scanner.nextInt();
