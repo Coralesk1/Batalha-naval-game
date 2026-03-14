@@ -15,6 +15,7 @@ void main() {
         System.out.println("1. Jogar");
         System.out.println("2. Regras do Jogo");
         System.out.println("3. Sair");
+        System.out.println("4. Teste matriz bidimensional");
         System.out.print("Escolha uma opção: ");
 
         int escolha = scanner.nextInt();
@@ -29,6 +30,10 @@ void main() {
                 System.out.println("Obrigado por jogar!");
                 scanner.close();
                 return;
+            case 4:
+                Tabuleiro tabuleiro = new Tabuleiro();
+                tabuleiro.mostraMatrizPrincipal();
+
             default:
                 System.out.println("Opção inválida. Por favor, tente novamente.");
         }
