@@ -1,10 +1,15 @@
+import Navios.Navio;
+
+import java.util.HashMap;
+import java.util.Scanner;
+
 public class Tabuleiro {
 
     private final int TAMANHO = 10;
     private final char AGUA = '~';
     private final char BARCO = 'B';
-    private char[][] matriz; // Matriz do tabuleiro
 
+    private final char[][] matriz = new char[10][10];
 
     public int getTAMANHO() {
         return TAMANHO;
@@ -18,17 +23,11 @@ public class Tabuleiro {
         return BARCO;
     }
 
-    public boolean posicionaBarco(int linha, int coluna, String orientacao){
-        // Verifica se a posição é válida
-        if (linha >= 0 && linha < TAMANHO && coluna >= 0 && coluna < TAMANHO) {
-            this.matriz[linha][coluna] = BARCO;
-            return true;
-        }
-        return false;
-    }
 
-    public void mostraMatrizPrincipal(){
-        // Imprime os números das colunas
+
+    public boolean posicionaBarco(int linha, int coluna, String orientacao, Navio navioEscolhido){
+
+
         System.out.print("   "); // Espaço para o número da linha
         for (int j = 0; j < TAMANHO; j++) {
             System.out.print(j + " ");
@@ -38,9 +37,33 @@ public class Tabuleiro {
         for(int i = 0; i < TAMANHO; i++){ // linhas
             System.out.print(i + "  "); // Imprime o número da linha
             for(int j = 0; j < TAMANHO; j++){ // colunas
-                System.out.print(this.matriz[i][j] + " ");
+                matriz[i][j] = AGUA;
+                System.out.print(matriz[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        return false;
+    }
+
+    public void mostraMatrizPrincipal(){
+
+        System.out.print("   "); // Espaço para o número da linha
+        for (int j = 0; j < TAMANHO; j++) {
+            System.out.print(j + " ");
+        }
+        System.out.println();
+
+        for(int i = 0; i < TAMANHO; i++){ // linhas
+            System.out.print(i + "  "); // Imprime o número da linha
+            for(int j = 0; j < TAMANHO; j++){ // colunas
+                matriz[i][j] = AGUA;
+                System.out.print(matriz[i][j] + " ");
             }
             System.out.println();
         }
     }
+
+
+
 }

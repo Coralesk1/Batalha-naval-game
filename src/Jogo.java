@@ -1,5 +1,9 @@
+import Navios.*;
 import Utils.UtilsConsole;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 public class Jogo {
@@ -48,26 +52,70 @@ public class Jogo {
 
     public static void preparaJogador( Jogador jogador, Scanner scanner) {
         Tabuleiro tabuleiro = new Tabuleiro();
-        System.out.println("Posicione seus barcos no tabuleiro.");
-
-        tabuleiro.mostraMatrizPrincipal();
-
-        System.out.println("Posição da linha [0-9] ");
-        int linha = scanner.nextInt();
-
-        System.out.println("Posição da coluna [0-9] ");
-        int coluna = scanner.nextInt();
-
-        System.out.println("Orientação (H para horizontal) ou (V para vertical)");
-        String orientacao = scanner.nextLine().toUpperCase();
 
 
-        boolean posicionado = jogador.getTabuleiro().posicionaBarco(linha, coluna, orientacao);
+        while(true){
 
+            System.out.println("Posicione seus barcos no tabuleiro.");
 
-        /*for(int i = 0; i <= 5; i++){
+            jogador.getTabuleiro().mostraMatrizPrincipal();
+            String navioEscolhido = escolheNavio(scanner);
 
-        }*/
+            System.out.println("Posição da linha [0-9] ");
+            int linha = scanner.nextInt();
+
+            System.out.println("Posição da coluna [0-9] ");
+            int coluna = scanner.nextInt();
+            scanner.nextLine(); // Limpar o buffer do teclado
+
+            System.out.println("Orientação (H para horizontal) ou (V para vertical)");
+            String orientacao = scanner.nextLine().toUpperCase();
+
+            boolean posicionado = jogador.getTabuleiro().posicionaBarco(linha, coluna, orientacao, navioEscolhido);
+
+        }
 
     }
+
+    public static String escolheNavio(Scanner scanner){
+
+        HashMap<Integer, String> listaNavios = new HashMap<>();
+
+        listaNavios.put(1, "Submarino");
+        listaNavios.put(2, "Destroyer");
+        listaNavios.put(3, "Porta Avião");
+        listaNavios.put(4, "Encoracado");
+        listaNavios.put(5, "Cruzado");
+
+        System.out.println("Lista de Navios disponiveis:");
+        for(HashMap.Entry<Integer, String> navio : listaNavios.entrySet()){
+            System.out.println(navio.getKey() +  " - " + navio.getValue());
+        }
+
+        System.out.println("Escolha seu navio para posiciona-lo: ");
+        int escolhaNavio = scanner.nextInt();
+
+        String navioEscolhido = listaNavios.get(escolhaNavio);
+
+        return navioEscolhido;
+    }
+
+    public Navio buscarNavioByNome(String nome) {
+
+        List<Navio> listaNavioClass = new ArrayList<>();
+        listaNavioClass.add(new Encoracado());
+        listaNavioClass.add(new Destroyer());
+        listaNavioClass.add(new PortaAviao());
+        listaNavioClass.add(new Submarino());
+        listaNavioClass.add(new Cruzador());
+
+        for(Navio navio : listaNavioClass){
+            if(navio.getTipo().equals(nome)){
+                return navio;
+            }
+
+        }
+        return null;
+    }
+
 }
