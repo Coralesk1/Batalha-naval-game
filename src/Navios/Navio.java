@@ -1,5 +1,8 @@
 package Navios;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Navio {
 
     private int vida;
@@ -36,4 +39,23 @@ public abstract class Navio {
         this.tipo = tipo;
     }
 
+    public static Navio buscarNavioByNome(String nome) {
+
+        List<Navio> listaNavioClass = new ArrayList<>();
+        listaNavioClass.add(new Encoracado());
+        listaNavioClass.add(new Destroyer());
+        listaNavioClass.add(new PortaAviao());
+        listaNavioClass.add(new Submarino());
+        listaNavioClass.add(new Cruzador());
+
+        for(Navio navio : listaNavioClass){
+
+            boolean navis = navio.getTipo().equals(nome);
+            if(navio.getTipo().equals(nome)){
+                return navio;
+            }
+
+        }
+        return null;
+    }
 }
