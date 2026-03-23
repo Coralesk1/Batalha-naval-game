@@ -11,20 +11,12 @@ public class UtilsConsole {
 
     }
 
-    public static String validaLinha(int linha, List<String> erros){
+    public String validaEntrada(int linha, List<String> erros){
 
         if(linha <= 0 || linha > 10){
-            return "Linha inválida";
+            erros.add("inválida.");
         }
         return null;
-    }
-
-    public static String validaColuna(int linha, List<String> erros){
-
-        if(linha <= 0 || linha > 10){
-
-        }
-        return "";
     }
 
 

@@ -1,6 +1,5 @@
 import Navios.*;
 import Utils.UtilsConsole;
-import netscape.javascript.JSObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,74 +21,98 @@ public class Jogo {
         jogador2 = new Jogador(new Tabuleiro());
 
         System.out.println("----PREPARAÇÃO DO JOGADOR 1----");
-        boolean jogador1Ok = preparaJogador(jogador1, scanner);
-        if (jogador1Ok){
+        List<String> prepjogador1 = preparaJogador(jogador1, scanner, utilsConsole);
 
+        if (!prepjogador1.isEmpty()){
+            System.out.println(prepjogador1);
         }
+
+
         System.out.println("----PREPARAÇÃO DO JOGADOR 2----");
-        preparaJogador(jogador2, scanner);
+        preparaJogador(jogador2, scanner, utilsConsole);
 
         scanner.close();
 
     }
 
-    public static List<String> preparaJogador( Jogador jogador, Scanner scanner) {
+    public static List<String> preparaJogador( Jogador jogador, Scanner scanner, UtilsConsole utilsConsole) {
         List<String> erros = new ArrayList<>();
 
-        for (int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
 
             System.out.println("Posicione seus barcos no tabuleiro.");
 
             jogador.getTabuleiro().mostraMatrizPrincipal();
             String navioEscolhido = escolheNavio(scanner);
 
+            //busca navio
             Navio navio = Navio.buscarNavioByNome(navioEscolhido);
 
-            System.out.println("Posição da linha [0-9] : ");
             int linha;
-            while (!scanner.hasNextInt()) {
-                System.out.println("Entrada inválida! Digite um número entre 0 e 9 para a linha:");
-                scanner.next();
+            while(true){
+
+                System.out.println("Posição da linha [0-9] : ");
+
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Entrada inválida! Digite um número entre 0 e 9 para a linha:");
+                    scanner.next();
+                }
+                linha = scanner.nextInt();
+
+                String erroLinha = utilsConsole.validaEntrada(linha, erros);
+
+                if (erroLinha != null) {
+                    utilsConsole.limpaTela();
+                    System.out.println("Linha " + erroLinha);
+                }else{
+                    break;
+                }
             }
-            linha = scanner.nextInt();
 
-            String erroLinha = UtilsConsole.validaLinha(linha, erros);
-
-            if (!erroLinha.equals("")){
-                System.out.println(erroLinha);
-            }
-
-            System.out.println("Posição da coluna [0-9] : ");
             int coluna;
-            while (!scanner.hasNextInt()) {
-                System.out.println("Entrada inválida! Digite um número entre 0 e 9 para a coluna:");
-                scanner.next();
-            }
-            coluna = scanner.nextInt();
+            while (true) {
 
-            UtilsConsole.validaColuna(coluna, erros);
-            if(!erros.isEmpty()){
-                return erros;
+                System.out.println("Posição da coluna [0-9] : ");
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Entrada inválida! Digite um número entre 0 e 9 para a coluna:");
+                    scanner.next();
+                }
+                coluna = scanner.nextInt();
+
+                String erroColuna = utilsConsole.validaEntrada(linha, erros);
+
+                if (erroColuna != null) {
+                    utilsConsole.limpaTela();
+                    System.out.println("Coluna " + erros);
+                } else {
+                    break;
+                }
             }
 
-            System.out.println("Orientação (H para horizontal) ou (V para vertical)");
-            String orientacao = scanner.nextLine().toUpperCase();
+            String orientacao;
+            while (true){
+
+                System.out.println("Orientação (H para horizontal) ou (V para vertical)");
+                orientacao = scanner.nextLine().toUpperCase();
+
+                break;
+            }
+
 
             boolean posicionado = jogador.getTabuleiro().posicionaBarco(linha, coluna, orientacao, navio);
 
-            if (posicionado){
+            if (posicionado) {
                 break;
             }
 
         }
-
-
-        return false;
+        return erros;
     }
 
     public static String escolheNavio(Scanner scanner){
 
         HashMap<Integer, String> listaNavios = new HashMap<>();
+        String navioEscolhido;
 
         listaNavios.put(1, "Submarino");
         listaNavios.put(2, "Destroyer");
@@ -106,16 +129,15 @@ public class Jogo {
             System.out.println("Escolha seu navio para posiciona-lo: ");
             int escolhaNavio = scanner.nextInt();
 
-            String navioEscolhido = listaNavios.get(escolhaNavio);
+            navioEscolhido = listaNavios.get(escolhaNavio);
 
             if (navioEscolhido == null){
                 System.out.println("Navio inválido!");
             }else {
                 break;
-                return navioEscolhido;
             }
         }
-
+        return navioEscolhido;
 
     }
 
