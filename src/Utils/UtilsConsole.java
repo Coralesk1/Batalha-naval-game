@@ -1,23 +1,37 @@
 package Utils;
 
-import java.util.List;
-
 public class UtilsConsole {
 
-    public void limpaTela(){
+    public static void limpaTela(){
         for (int i = 0; i < 50; i++){
             System.out.println();
         }
 
     }
 
-    public String validaEntrada(int linha, List<String> erros){
+    public static boolean validaLinha(int linha){
 
-        if(linha <= 0 || linha > 10){
-            erros.add("inválida.");
+        if(linha < 0 || linha > 10){
+            UtilsConsole.limpaTela();
+            System.out.println("Linha inválida.");
+            System.out.println("Aguarda para tentar novamente...");
+            return false;
         }
-        return null;
+        return true;
     }
+
+    public static boolean validaColuna(int linha){
+
+        if(linha < 0 || linha > 10){
+            UtilsConsole.limpaTela();
+            System.out.println("Coluna inválida.");
+            System.out.println("Aguarda para tentar novamente...");
+            return false;
+        }
+        return true;
+    }
+
+
 
 
 }

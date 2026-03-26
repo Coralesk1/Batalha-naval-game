@@ -49,8 +49,6 @@ public abstract class Navio {
         listaNavioClass.add(new Cruzador());
 
         for(Navio navio : listaNavioClass){
-
-            boolean navis = navio.getTipo().equals(nome);
             if(navio.getTipo().equals(nome)){
                 return navio;
             }

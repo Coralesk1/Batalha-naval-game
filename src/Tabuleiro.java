@@ -1,4 +1,5 @@
 import Navios.Navio;
+import Utils.UtilsConsole;
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -44,20 +45,54 @@ public class Tabuleiro {
         }
     }
 
-    public boolean posicionaBarco(int linha, int coluna, String orientacao, Navio navio){
+    public boolean posicionaBarco(int linha, int coluna, String orientacao, Navio navio, Scanner scanner){
+        int tamanhoBarco = navio.getTamanho();
 
-        // TODO: Implementar a lógica real de posicionamento do barco.
-        // Por enquanto, apenas um exemplo para marcar uma posição.
-        // Você precisará verificar se o barco cabe, se não colide com outros barcos, etc.
-        if (linha >= 0 && linha < TAMANHO && coluna >= 0 && coluna < TAMANHO) {
-            // Marca a posição inicial do barco.
-            // A lógica completa precisará iterar sobre o tamanho do navio e sua orientação.
-            matriz[linha][coluna] = BARCO;
-            System.out.println("Barco posicionado em (" + linha + ", " + coluna + ")");
-            return true;
+        // Validação de limites e sobreposição
+        if (orientacao.equalsIgnoreCase("H")) { // Horizontal
+            if (coluna + tamanhoBarco > TAMANHO) {
+                System.out.println("Erro: O barco excede os limites do tabuleiro na horizontal.");
+                return false;
+            }
+            for (int j = 0; j < tamanhoBarco; j++) {
+                if (matriz[linha][coluna + j] == BARCO) {
+                    System.out.println("Erro: Já existe um barco nesta posição.");
+                    return false;
+                }
+            }
+            // Posiciona o barco
+            for (int j = 0; j < tamanhoBarco; j++) {
+                matriz[linha][coluna + j] = BARCO;
+            }
+        } else if (orientacao.equalsIgnoreCase("V")) { // Vertical
+            if (linha + tamanhoBarco > TAMANHO) {
+                System.out.println("Erro: O barco excede os limites do tabuleiro na vertical.");
+                return false;
+            }
+            for (int i = 0; i < tamanhoBarco; i++) {
+                if (matriz[linha + i][coluna] == BARCO) {
+                    System.out.println("Erro: Já existe um barco nesta posição.");
+                    return false;
+                }
+            }
+            // Posiciona o barco
+            for (int i = 0; i < tamanhoBarco; i++) {
+                matriz[linha + i][coluna] = BARCO;
+            }
+        } else {
+            System.out.println("Erro: Orientação inválida. Use 'H' para horizontal ou 'V' para vertical.");
+            return false;
         }
-        System.out.println("Não foi possível posicionar o barco. Posição inválida.");
-        return false;
+
+        System.out.println("Barco posicionado em (" + linha + ", " + coluna + ") com orientação " + orientacao + "\n");
+
+        mostraMatrizPrincipal();
+
+        System.out.println("Pressione enter para posicionar o próximo barco ...");
+        scanner.nextLine();
+
+        UtilsConsole.limpaTela();
+        return true;
     }
 
     public void mostraMatrizPrincipal(){
