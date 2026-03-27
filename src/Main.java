@@ -1,6 +1,5 @@
 
 import Regras.regras;
-import Utils.UtilsConsole;
 
 import java.util.Scanner;
 
@@ -22,7 +21,7 @@ void main() {
                 Jogo.iniciarJogo(scanner);
                 break;
             case 2:
-                regras.mostrarRegras();
+                regras.mostrarRegras(scanner);
                 break;
             case 3:
                 System.out.println("Obrigado por jogar!");

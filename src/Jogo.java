@@ -30,14 +30,18 @@ public class Jogo {
         boolean preparaJogador1 = preparaJogador(jogador1, scanner, listaNavios);
 
         if (preparaJogador1){
-            System.out.println("jogador 1 posicionado !!");
+            System.out.println("Jogador 1 posicionado !!");
+            System.out.println("Seu tabuleiro:");
+            jogador1.getTabuleiro().mostraMatrizPrincipal();
         }
 
         System.out.println("----PREPARAÇÃO DO JOGADOR 2----");
         boolean preparaJogador2 = preparaJogador(jogador2, scanner, listaNavios);
 
         if (preparaJogador2){
-            System.out.println("jogador 2 posicionado !!");
+            System.out.println("Jogador 2 posicionado !!");
+            System.out.println("Seu tabuleiro:");
+            jogador1.getTabuleiro().mostraMatrizPrincipal();
         }
 
         scanner.close();
@@ -59,72 +63,70 @@ public class Jogo {
                 //busca navio
                 Navio navio = Navio.buscarNavioByNome(navioEscolhido);
 
-                int linha;
-                while (true) {
+                while (true){
 
-                    System.out.println("Posição da linha [0-9] : ");
+                    int linha;
+                    while (true) {
 
-                    while (!scanner.hasNextInt()) {
-                        System.out.println("Entrada inválida! Digite um número entre 0 e 9 para a linha:");
-                        scanner.next();
-                    }
-                    linha = scanner.nextInt();
+                        System.out.println("Informe a posição da linha [0-9] : ");
 
-                    boolean erroLinha = UtilsConsole.validaLinha(linha);
-
-                    if (!erroLinha) {
-                        try {
-                            Thread.sleep(2500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        while (!scanner.hasNextInt()) {
+                            System.out.println("Erro: Entrada inválida! Digite um número entre 0 e 9 para a linha:");
+                            scanner.next();
                         }
-                        UtilsConsole.limpaTela();
-                    } else {
-                        break;
-                    }
-                }
+                        linha = scanner.nextInt();
 
-                int coluna;
-                while (true) {
+                        boolean erroLinha = UtilsConsole.validaLinha(linha);
 
-                    System.out.println("Posição da coluna [0-9] : ");
-                    while (!scanner.hasNextInt()) {
-                        System.out.println("Entrada inválida! Digite um número entre 0 e 9 para a coluna:");
-                        scanner.next();
-                    }
-                    coluna = scanner.nextInt();
-
-                    boolean erroColuna = UtilsConsole.validaColuna(linha);
-
-                    if (!erroColuna) {
-                        try {
-                            Thread.sleep(2500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                        if (!erroLinha) {
+                            UtilsConsole.limpaTela();
+                        } else {
+                            break;
                         }
-                        UtilsConsole.limpaTela();
-                    } else {
-                        break;
                     }
-                }
-                scanner.nextLine();
-                String orientacao;
-                while (true) {
-                    System.out.println("Orientação (H para horizontal) ou (V para vertical)");
-                    orientacao = scanner.nextLine().toUpperCase();
 
-                    if (orientacao.equals("H") || orientacao.equals("V")){
-                        break;
+                    int coluna;
+                    while (true) {
+
+                        System.out.println("Informe a posição da coluna [0-9] : ");
+                        while (!scanner.hasNextInt()) {
+                            System.out.println("Erro: Entrada inválida! Digite um número entre 0 e 9 para a coluna:");
+                            scanner.next();
+                        }
+                        coluna = scanner.nextInt();
+
+                        boolean erroColuna = UtilsConsole.validaColuna(linha);
+
+                        if (!erroColuna) {
+                            UtilsConsole.limpaTela();
+                        } else {
+                            break;
+                        }
+                    }
+                    scanner.nextLine();
+                    String orientacao;
+                    while (true) {
+                        System.out.println("Informe a orientação (H para horizontal) ou (V para vertical) :");
+                        orientacao = scanner.nextLine().toUpperCase();
+
+                        boolean erroPosicao = UtilsConsole.validaPosicao(orientacao);
+
+                        if (!erroPosicao){
+                            UtilsConsole.limpaTela();
+                        }else{
+                            break;
+                        }
+                    }
+
+                    boolean posicionaBarco = jogador.getTabuleiro().posicionaBarco(linha, coluna, orientacao, navio, scanner);
+
+                    if (!posicionaBarco) {
+                        posicionado = false;
+                        System.out.println("Tente posicionar o barco " + navioEscolhido + " novamente.");
                     }else{
-                        System.out.println("Orientação inválida.");
+                        break;
                     }
-                }
 
-                boolean posicionaBarco = jogador.getTabuleiro().posicionaBarco(linha, coluna, orientacao, navio, scanner);
-
-                if (!posicionaBarco) {
-                    posicionado = false;
-                    break;
                 }
             }
             if (posicionado){

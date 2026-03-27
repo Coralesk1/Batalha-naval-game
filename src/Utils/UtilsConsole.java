@@ -13,25 +13,60 @@ public class UtilsConsole {
 
         if(linha < 0 || linha > 10){
             UtilsConsole.limpaTela();
-            System.out.println("Linha inválida.");
-            System.out.println("Aguarda para tentar novamente...");
+            System.out.println("Erro: Linha inválida.");
+
+            System.out.print("Aguarda para tentar novamente ");
+            for (int i = 0; i < 3; i++){
+                System.out.print(".");
+                try {
+                    Thread.sleep(1250);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             return false;
         }
         return true;
     }
 
-    public static boolean validaColuna(int linha){
+    public static boolean validaColuna(int coluna){
 
-        if(linha < 0 || linha > 10){
+        if(coluna < 0 || coluna > 10){
             UtilsConsole.limpaTela();
-            System.out.println("Coluna inválida.");
-            System.out.println("Aguarda para tentar novamente...");
+            System.out.println("Erro: Coluna inválida.");
+
+            System.out.print("Aguarda para tentar novamente ");
+            for (int i = 0; i < 3; i++){
+                System.out.print(".");
+                try {
+                    Thread.sleep(1250);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
             return false;
         }
         return true;
     }
 
+    public static boolean validaPosicao(String posicao){
 
+        if (!posicao.equalsIgnoreCase("H") || !posicao.equalsIgnoreCase("V")){
+            System.out.println("Erro: Orientação inválida. Use 'H' para horizontal ou 'V' para vertical.");
 
+            System.out.print("Aguarda para tentar novamente ");
+            for (int i = 0; i < 3; i++){
+                System.out.print(".");
+                try {
+                    Thread.sleep(1250);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            return false;
+        }
 
+        return true;
+    }
 }

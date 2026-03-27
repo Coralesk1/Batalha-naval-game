@@ -50,37 +50,107 @@ public class Tabuleiro {
 
         // Validação de limites e sobreposição
         if (orientacao.equalsIgnoreCase("H")) { // Horizontal
+
             if (coluna + tamanhoBarco > TAMANHO) {
                 System.out.println("Erro: O barco excede os limites do tabuleiro na horizontal.");
+
+                System.out.print("Aguarda para tentar novamente ");
+                for (int i = 0; i < 3; i++){
+                    System.out.print(".");
+                    try {
+                        Thread.sleep(1250);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                UtilsConsole.limpaTela();
                 return false;
             }
+
+            // Verifica se já existe um barco na posição
             for (int j = 0; j < tamanhoBarco; j++) {
                 if (matriz[linha][coluna + j] == BARCO) {
                     System.out.println("Erro: Já existe um barco nesta posição.");
+
+                    System.out.print("Aguarda para tentar novamente ");
+                    for (int i = 0; i < 3; i++){
+                        System.out.print(".");
+                        try {
+                            Thread.sleep(1250);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    UtilsConsole.limpaTela();
                     return false;
                 }
             }
+
             // Posiciona o barco
             for (int j = 0; j < tamanhoBarco; j++) {
                 matriz[linha][coluna + j] = BARCO;
             }
+
         } else if (orientacao.equalsIgnoreCase("V")) { // Vertical
+
             if (linha + tamanhoBarco > TAMANHO) {
                 System.out.println("Erro: O barco excede os limites do tabuleiro na vertical.");
+
+                System.out.print("Aguarda para tentar novamente ");
+                for (int i = 0; i < 3; i++){
+                    System.out.print(".");
+                    try {
+                        Thread.sleep(1250);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                UtilsConsole.limpaTela();
                 return false;
             }
+
+            // Verifica se já existe um barco na posição
             for (int i = 0; i < tamanhoBarco; i++) {
                 if (matriz[linha + i][coluna] == BARCO) {
                     System.out.println("Erro: Já existe um barco nesta posição.");
+
+                    System.out.print("Aguarda para tentar novamente ");
+                    for (int j = 0; j < 3; j++){
+                        System.out.print(".");
+                        try {
+                            Thread.sleep(1250);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    UtilsConsole.limpaTela();
                     return false;
                 }
             }
+
             // Posiciona o barco
             for (int i = 0; i < tamanhoBarco; i++) {
                 matriz[linha + i][coluna] = BARCO;
             }
+
         } else {
             System.out.println("Erro: Orientação inválida. Use 'H' para horizontal ou 'V' para vertical.");
+
+            System.out.print("Aguarda para tentar novamente ");
+            for (int i = 0; i < 3; i++){
+                System.out.print(".");
+                try {
+                    Thread.sleep(1250);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            UtilsConsole.limpaTela();
             return false;
         }
 
@@ -88,7 +158,7 @@ public class Tabuleiro {
 
         mostraMatrizPrincipal();
 
-        System.out.println("Pressione enter para posicionar o próximo barco ...");
+        System.out.println("Pressione enter para posicionar o próximo barco.");
         scanner.nextLine();
 
         UtilsConsole.limpaTela();
