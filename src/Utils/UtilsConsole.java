@@ -52,11 +52,11 @@ public class UtilsConsole {
 
     public static boolean validaPosicao(String posicao){
 
-        if (!posicao.equalsIgnoreCase("H") || !posicao.equalsIgnoreCase("V")){
+        if (!posicao.equals("H") && !posicao.equals("V")) {
             System.out.println("Erro: Orientação inválida. Use 'H' para horizontal ou 'V' para vertical.");
 
             System.out.print("Aguarda para tentar novamente ");
-            for (int i = 0; i < 3; i++){
+            for (int i = 0; i < 3; i++) {
                 System.out.print(".");
                 try {
                     Thread.sleep(1250);

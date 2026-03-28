@@ -45,7 +45,7 @@ public class Tabuleiro {
         }
     }
 
-    public boolean posicionaBarco(int linha, int coluna, String orientacao, Navio navio, Scanner scanner){
+    public boolean  posicionaBarco(int linha, int coluna, String orientacao, Navio navio, Scanner scanner){
         int tamanhoBarco = navio.getTamanho();
 
         // Validação de limites e sobreposição

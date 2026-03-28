@@ -26,6 +26,8 @@ public class Jogo {
         listaNavios.put(4, "Encoracado");
         listaNavios.put(5, "Cruzado");
 
+
+
         System.out.println("----PREPARAÇÃO DO JOGADOR 1----");
         boolean preparaJogador1 = preparaJogador(jogador1, scanner, listaNavios);
 
