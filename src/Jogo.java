@@ -124,11 +124,11 @@ public class Jogo {
 
                     if (!posicionaBarco) {
                         posicionado = false;
+                        jogador.getTabuleiro().mostraMatrizPrincipal();
                         System.out.println("Tente posicionar o barco " + navioEscolhido + " novamente.");
                     }else{
                         break;
                     }
-
                 }
             }
             if (posicionado){
