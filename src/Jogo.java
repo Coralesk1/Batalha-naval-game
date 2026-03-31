@@ -2,6 +2,7 @@ import Navios.*;
 import Utils.UtilsConsole;
 
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Jogo {
@@ -26,6 +27,8 @@ public class Jogo {
         listaNavios.put(4, "Encoracado");
         listaNavios.put(5, "Cruzado");
 
+        //cria uma matriz vazia e mostra para ele , ele vai atirar e eu comparo se a cordenada que ele colocou na matriz vazia se
+        //tem algum barco posicionado na matrix real , se acertou ent mostra na matriz vazia a fumaça na posição
 
 
         System.out.println("----PREPARAÇÃO DO JOGADOR 1----");
@@ -35,6 +38,9 @@ public class Jogo {
             System.out.println("Jogador 1 posicionado !!");
             System.out.println("Seu tabuleiro:");
             jogador1.getTabuleiro().mostraMatrizPrincipal();
+
+            System.out.println("Pressione para confirmar.");
+            scanner.nextLine();
         }
 
         System.out.println("----PREPARAÇÃO DO JOGADOR 2----");
@@ -44,7 +50,36 @@ public class Jogo {
             System.out.println("Jogador 2 posicionado !!");
             System.out.println("Seu tabuleiro:");
             jogador1.getTabuleiro().mostraMatrizPrincipal();
+
+            System.out.println("Pressione para confirmar.");
+            scanner.nextLine();
         }
+
+        // começa a logica de batalha
+
+        //tem que fazer um sorteio de quem vai começar
+        Random random = new Random();
+        int jogadorEscolhidoJogar = random.nextInt(2);
+
+        if (jogadorEscolhidoJogar == 1){
+            System.out.println("Jogador 1 começa a batalha !!!");
+            System.out.println("Tabuleiro do jogador : ");
+            jogador2.getTabuleiro().mostraMatrizPrincipal();
+
+
+
+        }else {
+            System.out.println("Jogador 2 começa a batalha !!!");
+        }
+
+
+
+
+
+
+
+
+
 
         scanner.close();
 
