@@ -27,10 +27,6 @@ public class Jogo {
         listaNavios.put(4, "Encoracado");
         listaNavios.put(5, "Cruzado");
 
-        //cria uma matriz vazia e mostra para ele , ele vai atirar e eu comparo se a cordenada que ele colocou na matriz vazia se
-        //tem algum barco posicionado na matrix real , se acertou ent mostra na matriz vazia a fumaça na posição
-
-
         System.out.println("----PREPARAÇÃO DO JOGADOR 1----");
         boolean preparaJogador1 = preparaJogador(jogador1, scanner, listaNavios);
 
@@ -60,6 +56,10 @@ public class Jogo {
         //tem que fazer um sorteio de quem vai começar
         Random random = new Random();
         int jogadorEscolhidoJogar = random.nextInt(2);
+
+
+        //cria uma matriz vazia e mostra para ele , ele vai atirar e eu comparo se a cordenada que ele colocou na matriz vazia se
+        //tem algum barco posicionado na matrix real , se acertou ent mostra na matriz vazia a fumaça na posição
 
         if (jogadorEscolhidoJogar == 1){
             System.out.println("Jogador 1 começa a batalha !!!");
