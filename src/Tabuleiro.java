@@ -33,19 +33,16 @@ public class Tabuleiro {
     }
 
     public char getPosicao(int linha, int coluna) {
-        if (linha >= 0 && linha < TAMANHO && coluna >= 0 && coluna < TAMANHO) {
-            return matriz[linha][coluna];
-        }
-        return ' '; // Ou lançar uma exceção para posições inválidas
+
+        return matriz[linha][coluna];
+
     }
 
     public void setPosicao(int linha, int coluna, char valor) {
-        if (linha >= 0 && linha < TAMANHO && coluna >= 0 && coluna < TAMANHO) {
-            matriz[linha][coluna] = valor;
-        }
+        matriz[linha][coluna] = valor;
     }
 
-    public boolean  posicionaBarco(int linha, int coluna, String orientacao, Navio navio, Scanner scanner){
+    public boolean posicionaBarco(int linha, int coluna, String orientacao, Navio navio, Scanner scanner){
         int tamanhoBarco = navio.getTamanho();
 
         // Validação de limites e sobreposição

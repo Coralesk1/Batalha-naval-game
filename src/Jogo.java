@@ -2,6 +2,7 @@ import Navios.*;
 import Utils.UtilsConsole;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -9,6 +10,8 @@ public class Jogo {
 
     private static Jogador jogador1;
     private static Jogador jogador2;
+    private static Jogador jogador1MatrizTemplate;
+    private static Jogador jogador2MatrizTemplate;
 
 
     public static void iniciarJogo(Scanner scanner) {
@@ -19,6 +22,10 @@ public class Jogo {
         // Cria os jogadores e seus respectivos tabuleiros
         jogador1 = new Jogador(new Tabuleiro());
         jogador2 = new Jogador(new Tabuleiro());
+        jogador1MatrizTemplate = new Jogador(new Tabuleiro());
+        jogador2MatrizTemplate = new Jogador(new Tabuleiro());
+
+
         HashMap<Integer, String> listaNavios = new HashMap<>();
 
         listaNavios.put(1, "Submarino");
@@ -55,30 +62,14 @@ public class Jogo {
 
         //tem que fazer um sorteio de quem vai começar
         Random random = new Random();
-        int jogadorEscolhidoJogar = random.nextInt(2);
+        int jogadorEscolhidoJogar = random.nextInt(2) + 1;
 
 
         //cria uma matriz vazia e mostra para ele , ele vai atirar e eu comparo se a cordenada que ele colocou na matriz vazia se
         //tem algum barco posicionado na matrix real , se acertou ent mostra na matriz vazia a fumaça na posição
 
-        if (jogadorEscolhidoJogar == 1){
-            System.out.println("Jogador 1 começa a batalha !!!");
-            System.out.println("Tabuleiro do jogador : ");
-            jogador2.getTabuleiro().mostraMatrizPrincipal();
 
-
-
-        }else {
-            System.out.println("Jogador 2 começa a batalha !!!");
-        }
-
-
-
-
-
-
-
-
+        boolean seila = iniciaBatalha(jogadorEscolhidoJogar, scanner);
 
 
         scanner.close();
@@ -201,6 +192,124 @@ public class Jogo {
 
     }
 
+    public static boolean iniciaBatalha(int jogadorEscolhidoJogar, Scanner scanner){
+
+        System.out.println("Jogador " + jogadorEscolhidoJogar + " começa a batalha !!!");
+
+        try {
+            Thread.sleep(1250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        UtilsConsole.limpaTela();
+
+        int proximoJogador = 0;
+
+        jogadorEscolhidoJogar = proximoJogador;
+
+        while (true){
+
+            if (jogadorEscolhidoJogar == 1) {
+                System.out.println("Tabuleiro do jogador 2");
+                jogador2MatrizTemplate.getTabuleiro().mostraMatrizPrincipal();
+
+            }else if (jogadorEscolhidoJogar == 2) {
+                System.out.println("Tabuleiro do jogador 1");
+                jogador1MatrizTemplate.getTabuleiro().mostraMatrizPrincipal();
+
+            }
+
+            System.out.println("Escolha a cordenada para atacar !");
+
+            int linha;
+            while (true) {
+
+                System.out.println("Informe a posição da linha [0-9] : ");
+
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Erro: Entrada inválida! Digite um número entre 0 e 9 para a linha:");
+                    scanner.next();
+                }
+                linha = scanner.nextInt();
+
+                boolean erroLinha = UtilsConsole.validaLinha(linha);
+
+                if (!erroLinha) {
+                    UtilsConsole.limpaTela();
+                } else {
+                    break;
+                }
+            }
+
+            int coluna;
+            while (true) {
+
+                System.out.println("Informe a posição da coluna [0-9] : ");
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Erro: Entrada inválida! Digite um número entre 0 e 9 para a coluna:");
+                    scanner.next();
+                }
+                coluna = scanner.nextInt();
+
+                boolean erroColuna = UtilsConsole.validaColuna(linha);
+
+                if (!erroColuna) {
+                    UtilsConsole.limpaTela();
+                } else {
+                    break;
+                }
+            }
+
+            boolean retornoAtaque = atacarTabuleiro(linha, coluna, jogadorEscolhidoJogar);
+
+
+            if (retornoAtaque){
+                proximoJogador = 2;
+            }else{
+                proximoJogador = 1;
+            }
+
+            /*boolean jaTemUmGanhador = */
+
+
+
+        }
+
+
+        return true;
+    }
+
+    public static Boolean atacarTabuleiro(int linha, int coluna, int jogadorEscolhidoJogar){
+
+        if (jogadorEscolhidoJogar == 1){
+
+            char caracter = jogador2.getTabuleiro().getPosicao(linha, coluna);
+
+            if (caracter == '~'){
+                jogador2MatrizTemplate.getTabuleiro().setPosicao(linha, coluna, 'X');
+
+            }else if (caracter == 'B') {
+                jogador2MatrizTemplate.getTabuleiro().setPosicao(linha, coluna, '@');
+
+            }
+            return true;
+
+        }else if (jogadorEscolhidoJogar == 2){
+
+            char caracter = jogador1.getTabuleiro().getPosicao(linha, coluna);
+
+            if (caracter == '~'){
+                jogador1MatrizTemplate.getTabuleiro().setPosicao(linha, coluna, 'X');
+
+            }else if (caracter == 'B') {
+                jogador1MatrizTemplate.getTabuleiro().setPosicao(linha, coluna, '@');
+
+            }
+            return false;
+        }
+
+        return null;
+    }
 
 
 }
