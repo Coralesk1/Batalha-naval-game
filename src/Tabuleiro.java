@@ -11,6 +11,7 @@ public class Tabuleiro {
     private final char BARCO = 'B';
 
     private final char[][] matriz = new char[10][10];
+    private final Navio[][] gradeNavios = new Navio[10][10];
 
     public Tabuleiro() {
         // Inicializa a matriz com água quando o tabuleiro é criado
@@ -33,10 +34,12 @@ public class Tabuleiro {
     }
 
     public char getPosicao(int linha, int coluna) {
-
         return matriz[linha][coluna];
-
     }
+    public Navio getPosicaoNavio(int linha, int coluna) {
+        return gradeNavios[linha][coluna];
+    }
+
 
     public void setPosicao(int linha, int coluna, char valor) {
         matriz[linha][coluna] = valor;
@@ -88,6 +91,7 @@ public class Tabuleiro {
             // Posiciona o barco
             for (int j = 0; j < tamanhoBarco; j++) {
                 matriz[linha][coluna + j] = BARCO;
+                gradeNavios[linha][coluna + j] =  navio;
             }
 
         } else if (orientacao.equalsIgnoreCase("V")) { // Vertical
@@ -132,6 +136,7 @@ public class Tabuleiro {
             // Posiciona o barco
             for (int i = 0; i < tamanhoBarco; i++) {
                 matriz[linha + i][coluna] = BARCO;
+                gradeNavios[linha + 1][coluna] =  navio;
             }
 
         } else {

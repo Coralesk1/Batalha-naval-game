@@ -2,8 +2,6 @@ import Navios.*;
 import Utils.UtilsConsole;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Jogo {
@@ -14,25 +12,23 @@ public class Jogo {
     private static Jogador jogador2MatrizTemplate;
 
 
-    public static void iniciarJogo(Scanner scanner) {
+    public static void iniciarJogo(Scanner scanner, /*indicador jogador IA*/) {
 
         UtilsConsole.limpaTela();
         System.out.println("Iniciando o Jogo de Batalha Naval!");
 
         // Cria os jogadores e seus respectivos tabuleiros
-        jogador1 = new Jogador(new Tabuleiro());
-        jogador2 = new Jogador(new Tabuleiro());
+        jogador1 = new Jogador(new Tabuleiro(), new Navio());
+        jogador2 = new Jogador(new Tabuleiro(), new Navio());
         jogador1MatrizTemplate = new Jogador(new Tabuleiro());
         jogador2MatrizTemplate = new Jogador(new Tabuleiro());
 
 
         HashMap<Integer, String> listaNavios = new HashMap<>();
 
-        listaNavios.put(1, "Submarino");
         listaNavios.put(2, "Destroyer");
-        listaNavios.put(3, "Porta aviões");
         listaNavios.put(4, "Encoracado");
-        listaNavios.put(5, "Cruzado");
+
 
         System.out.println("----PREPARAÇÃO DO JOGADOR 1----");
         boolean preparaJogador1 = preparaJogador(jogador1, scanner, listaNavios);
@@ -44,7 +40,14 @@ public class Jogo {
 
             System.out.println("Pressione para confirmar.");
             scanner.nextLine();
+            UtilsConsole.limpaTela();
         }
+
+        /*listaNavios.put(1, "Submarino");
+        listaNavios.put(2, "Destroyer");
+        listaNavios.put(3, "Porta aviões");
+        listaNavios.put(4, "Encoracado");
+        listaNavios.put(5, "Cruzado");
 
         System.out.println("----PREPARAÇÃO DO JOGADOR 2----");
         boolean preparaJogador2 = preparaJogador(jogador2, scanner, listaNavios);
@@ -56,32 +59,33 @@ public class Jogo {
 
             System.out.println("Pressione para confirmar.");
             scanner.nextLine();
-        }
+        }*/
 
         // começa a logica de batalha
 
         //tem que fazer um sorteio de quem vai começar
-        Random random = new Random();
-        int jogadorEscolhidoJogar = random.nextInt(2) + 1;
+        /*Random random = new Random();
+        int jogadorEscolhidoJogar = random.nextInt(2) + 1;*/
 
-
+        int jogadorEscolhidoJogar = 2;
         //cria uma matriz vazia e mostra para ele , ele vai atirar e eu comparo se a cordenada que ele colocou na matriz vazia se
         //tem algum barco posicionado na matrix real , se acertou ent mostra na matriz vazia a fumaça na posição
 
 
         boolean seila = iniciaBatalha(jogadorEscolhidoJogar, scanner);
 
+        System.out.println("fsadasasdasd");
 
         scanner.close();
 
     }
 
-    public static boolean preparaJogador( Jogador jogador, Scanner scanner, HashMap<Integer, String> listaNavios) {
+    public static boolean preparaJogador(Jogador jogador, Scanner scanner, HashMap<Integer, String> listaNavios) {
         boolean posicionado = true;
 
         while (true) {
 
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i <= listaNavios.size(); i++) {
 
                 System.out.println("Posicione seus barcos no tabuleiro.");
 
@@ -150,8 +154,9 @@ public class Jogo {
 
                     if (!posicionaBarco) {
                         posicionado = false;
-                        jogador.getTabuleiro().mostraMatrizPrincipal();
                         System.out.println("Tente posicionar o barco " + navioEscolhido + " novamente.");
+                        jogador.getTabuleiro().mostraMatrizPrincipal();
+
                     }else{
                         break;
                     }
@@ -176,13 +181,18 @@ public class Jogo {
 
         int escolhaNavio;
         while (true){
+
             System.out.println("Escolha seu navio para posiciona-lo: ");
-             escolhaNavio = scanner.nextInt();
+            while (!scanner.hasNextInt()) {
+                System.out.println("Erro: Entrada inválida! Digite um número da lista:");
+                scanner.next();
+            }
+            escolhaNavio = scanner.nextInt();
 
             navioEscolhido = listaNavios.get(escolhaNavio);
 
             if (navioEscolhido == null){
-                System.out.println("Navio inválido!");
+                System.out.println("Navio inválido!, tente novamente.");
             }else {
                 break;
             }
@@ -196,16 +206,12 @@ public class Jogo {
 
         System.out.println("Jogador " + jogadorEscolhidoJogar + " começa a batalha !!!");
 
-        try {
-            Thread.sleep(1250);
+        /*try {
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         UtilsConsole.limpaTela();
-
-        int proximoJogador = 0;
-
-        jogadorEscolhidoJogar = proximoJogador;
 
         while (true){
 
@@ -251,7 +257,7 @@ public class Jogo {
                 }
                 coluna = scanner.nextInt();
 
-                boolean erroColuna = UtilsConsole.validaColuna(linha);
+                boolean erroColuna = UtilsConsole.validaColuna(coluna);
 
                 if (!erroColuna) {
                     UtilsConsole.limpaTela();
@@ -260,56 +266,127 @@ public class Jogo {
                 }
             }
 
-            boolean retornoAtaque = atacarTabuleiro(linha, coluna, jogadorEscolhidoJogar);
+            Boolean acertouNavio = atacarTabuleiro(linha, coluna, jogadorEscolhidoJogar);
 
-
-            if (retornoAtaque){
-                proximoJogador = 2;
-            }else{
-                proximoJogador = 1;
+            if (jogador1.getNavio().getDestroyer().getVida() == 0){
+                System.out.println("Eu sou um genio;");
             }
 
-            /*boolean jaTemUmGanhador = */
+            if (jogador1.getNavio().getEncaracado().getVida() == 0){
+                System.out.println("Eu sou um genio 2 ;");
+            }
+
+
+            if (acertouNavio) {
+                System.out.println("Belo tiro! Você joga novamente.");
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                UtilsConsole.limpaTela();
+
+
+
+            } else if (acertouNavio == false) {
+                System.out.println("Água! Trocando de jogador...");
+                jogadorEscolhidoJogar = (jogadorEscolhidoJogar == 1) ? 2 : 1;
+
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                UtilsConsole.limpaTela();
+            }else if (acertouNavio == null) {
+                System.out.println("Voçê já atirou nesta posição !");
+                jogadorEscolhidoJogar = (jogadorEscolhidoJogar == 1) ? 2 : 1;
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                UtilsConsole.limpaTela();
+            }
+
+
+
+
+
+
 
 
 
         }
 
 
-        return true;
+
+
     }
 
     public static Boolean atacarTabuleiro(int linha, int coluna, int jogadorEscolhidoJogar){
 
         if (jogadorEscolhidoJogar == 1){
 
+
             char caracter = jogador2.getTabuleiro().getPosicao(linha, coluna);
+
 
             if (caracter == '~'){
                 jogador2MatrizTemplate.getTabuleiro().setPosicao(linha, coluna, 'X');
+                return false;
 
             }else if (caracter == 'B') {
                 jogador2MatrizTemplate.getTabuleiro().setPosicao(linha, coluna, '@');
 
+                //pega o navio filha que estiver na posição e diminui sua vida
+                jogador2.setNavio(jogador2.getTabuleiro().getPosicaoNavio(linha, coluna));
+                Navio navio = jogador2.getNavio();
+                navio.setVida(navio.getVida() - 1);
+
+                return true;
+            }else {
+                return null;
             }
-            return true;
 
         }else if (jogadorEscolhidoJogar == 2){
 
             char caracter = jogador1.getTabuleiro().getPosicao(linha, coluna);
 
+
+            char caracterMatrizTemplate = jogador1MatrizTemplate.getTabuleiro().getPosicao(linha, coluna);
+
+            if (caracterMatrizTemplate == '@' || caracterMatrizTemplate == 'X'){
+                return null;
+            }
             if (caracter == '~'){
                 jogador1MatrizTemplate.getTabuleiro().setPosicao(linha, coluna, 'X');
+                return false;
 
             }else if (caracter == 'B') {
+
                 jogador1MatrizTemplate.getTabuleiro().setPosicao(linha, coluna, '@');
 
+
+                Navio navio = jogador1.getTabuleiro().getPosicaoNavio(linha, coluna);
+                if (navio.getTipo().equals("Encoracado")){
+                    jogador1.getNavio().getEncaracado().setVida(navio.getVida() - 1);
+                }
+                if (navio.getTipo().equals("Destroyer")){
+                    jogador1.getNavio().getDestroyer().setVida(navio.getVida() - 1);
+                }
+
+
+                return true;
+
             }
-            return false;
+
         }
 
         return null;
     }
+
+
 
 
 }
