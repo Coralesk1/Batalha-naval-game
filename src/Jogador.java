@@ -7,7 +7,7 @@ public class Jogador {
     private Navio navio;
 
 
-    public Jogador(Tabuleiro tabuleiro, Navio navio, ) {
+    public Jogador(Tabuleiro tabuleiro, Navio navio) {
         this.tabuleiro = tabuleiro;
         this.navio = navio;
 

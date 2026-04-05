@@ -12,7 +12,7 @@ public class Jogo {
     private static Jogador jogador2MatrizTemplate;
 
 
-    public static void iniciarJogo(Scanner scanner, /*indicador jogador IA*/) {
+    public static void iniciarJogo(Scanner scanner /*indicador jogador IA*/) {
 
         UtilsConsole.limpaTela();
         System.out.println("Iniciando o Jogo de Batalha Naval!");
@@ -375,7 +375,15 @@ public class Jogo {
                 if (navio.getTipo().equals("Destroyer")){
                     jogador1.getNavio().getDestroyer().setVida(navio.getVida() - 1);
                 }
-
+                if (navio.getTipo().equals("Porta Aviões")){
+                    jogador1.getNavio().getPortaAvioes().setVida(navio.getVida() - 1);
+                }
+                if (navio.getTipo().equals("Submarino")){
+                    jogador1.getNavio().getSubmarino().setVida(navio.getVida() - 1);
+                }
+                if (navio.getTipo().equals("Cruzado")){
+                    jogador1.getNavio().getCruzador().setVida(navio.getVida() - 1);
+                }
 
                 return true;
 

@@ -11,6 +11,9 @@ public class Navio {
 
     private Encoracado encaracado;
     private Destroyer destroyer;
+    private PortaAviao portaAviao;
+    private Submarino submarino;
+    private Cruzador cruzador;
 
 
     public Navio(int vida, int tamanho, String tipo) {
@@ -22,6 +25,9 @@ public class Navio {
     public Navio() {
         encaracado = new Encoracado();
         destroyer = new Destroyer();
+        portaAviao = new PortaAviao();
+        submarino = new Submarino();
+        cruzador = new Cruzador();
 
     }
 
@@ -39,6 +45,30 @@ public class Navio {
 
     public void setDestroyer(Destroyer destroyer) {
         this.destroyer = destroyer;
+    }
+
+    public PortaAviao getPortaAvioes() {
+        return portaAviao;
+    }
+
+    public void setPortaAvioes(PortaAviao portaAvioes) {
+        this.portaAviao = portaAvioes;
+    }
+
+    public Submarino getSubmarino() {
+        return submarino;
+    }
+
+    public void setSubmarino(Submarino submarino) {
+        this.submarino = submarino;
+    }
+
+    public Cruzador getCruzador() {
+        return cruzador;
+    }
+
+    public void setCruzador(Cruzador cruzador) {
+        this.cruzador = cruzador;
     }
 
     public int getVida() {
