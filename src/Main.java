@@ -10,20 +10,21 @@ void main() {
     while (true) {
 
         System.out.println("\n--- Welcome to Battle Chip! ---");
-        System.out.println("1. Jogar");
-        System.out.println("2. Regras do Jogo");
-        System.out.println("3. Sair");
+        System.out.println("1. Jogar 1 vs 1");
+        System.out.println("2. Jogar 1 vs PC");
+        System.out.println("3. Regras do Jogo");
+        System.out.println("4. Sair");
         System.out.print("Escolha uma opção: ");
 
         int escolha = scanner.nextInt();
         switch (escolha) {
             case 1:
                 Jogo.iniciarJogo(scanner);
-                break;
             case 2:
-                regras.mostrarRegras(scanner);
-                break;
+                Jogo.iniciarJogo(scanner);
             case 3:
+                regras.mostrarRegras(scanner);
+            case 4:
                 System.out.println("Obrigado por jogar!");
                 scanner.close();
                 return;
