@@ -19,9 +19,9 @@ void main() {
         int escolha = scanner.nextInt();
         switch (escolha) {
             case 1:
-                Jogo.iniciarJogo(scanner);
+                Jogo.iniciarJogo(scanner, false);
             case 2:
-                Jogo.iniciarJogo(scanner);
+                Jogo.iniciarJogo(scanner, true);
             case 3:
                 regras.mostrarRegras(scanner);
             case 4:
