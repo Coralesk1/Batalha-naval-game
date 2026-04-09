@@ -58,9 +58,11 @@ public class Jogo {
             if (preparaIa){
                 System.out.println("IA posicionada !!");
                 System.out.println("Tabuleira da IA:");
-                jogador1.getTabuleiro().mostraMatrizPrincipal();
+                jogador2.getTabuleiro().mostraMatrizPrincipal();
 
-                scanner.nextLine();
+                int sdsd = 8;
+
+
             }
 
         }else {
@@ -81,11 +83,11 @@ public class Jogo {
 
         int jogadorEscolhidoJogar = random.nextInt(2) + 1;
 
-        if (isIA){
+        /*if (isIA){
             iniciaBatalhaIA(jogadorEscolhidoJogar, scanner);
         }else{
             iniciaBatalha(jogadorEscolhidoJogar, scanner);
-        }
+        }*/
 
         scanner.close();
 

@@ -22,6 +22,7 @@ void main() {
                 Jogo.iniciarJogo(scanner, false);
             case 2:
                 Jogo.iniciarJogo(scanner, true);
+                break;
             case 3:
                 regras.mostrarRegras(scanner);
             case 4:
