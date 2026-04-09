@@ -11,7 +11,7 @@ public class Jogo {
     private static Jogador jogador2;
     private static Jogador jogador1MatrizTemplate;
     private static Jogador jogador2MatrizTemplate;
-
+    private static final Random random = new Random();
 
     public static void iniciarJogo(Scanner scanner, boolean isIA) {
 
@@ -24,15 +24,13 @@ public class Jogo {
         jogador1MatrizTemplate = new Jogador(new Tabuleiro());
         jogador2MatrizTemplate = new Jogador(new Tabuleiro());
 
-
         HashMap<Integer, String> listaNavios = new HashMap<>();
 
-        listaNavios.put(1, "Submarino");
+        /*listaNavios.put(1, "Submarino");
         listaNavios.put(2, "Destroyer");
         listaNavios.put(3, "Porta aviões");
         listaNavios.put(4, "Encoracado");
         listaNavios.put(5, "Cruzado");
-
 
         System.out.println("----PREPARAÇÃO DO JOGADOR 1----");
         boolean preparaJogador1 = preparaJogador(jogador1, scanner, listaNavios);
@@ -45,7 +43,7 @@ public class Jogo {
             System.out.println("Pressione para confirmar.");
             scanner.nextLine();
             UtilsConsole.limpaTela();
-        }
+        }*/
 
         listaNavios.put(1, "Submarino");
         listaNavios.put(2, "Destroyer");
@@ -57,12 +55,14 @@ public class Jogo {
         if (isIA){
             boolean preparaIa = preparaIa(jogador2, listaNavios);
 
-            System.out.println("IA posicionada !!");
-            System.out.println("Tabe:");
-            jogador1.getTabuleiro().mostraMatrizPrincipal();
+            if (preparaIa){
+                System.out.println("IA posicionada !!");
+                System.out.println("Tabuleira da IA:");
+                jogador1.getTabuleiro().mostraMatrizPrincipal();
 
-            System.out.println("Pressione para confirmar.");
-            scanner.nextLine();
+                scanner.nextLine();
+            }
+
         }else {
 
             boolean preparaJogador2 = preparaJogador(jogador2, scanner, listaNavios);
@@ -79,11 +79,13 @@ public class Jogo {
 
         // começa a logica de batalha
 
-        //tem que fazer um sorteio de quem vai começar
-        Random random = new Random();
         int jogadorEscolhidoJogar = random.nextInt(2) + 1;
 
-        iniciaBatalha(jogadorEscolhidoJogar, scanner);
+        if (isIA){
+            iniciaBatalhaIA(jogadorEscolhidoJogar, scanner);
+        }else{
+            iniciaBatalha(jogadorEscolhidoJogar, scanner);
+        }
 
         scanner.close();
 
@@ -94,7 +96,7 @@ public class Jogo {
 
         while (true) {
 
-            for (int i = 0; i <= listaNavios.size(); i++) {
+            for (int i = 0; i < 5; i++) {
 
                 System.out.println("Posicione seus barcos no tabuleiro.");
 
@@ -183,13 +185,13 @@ public class Jogo {
     public static boolean preparaIa(Jogador jogador, HashMap<Integer, String> listaNavios) {
 
         boolean posicionado = true;
-        Random random = new Random();
 
         while (true) {
 
-            for (int i = 1; i <= 6; i++) {
-                int index = i;
-                String navioEscolhido = escolherNavioIA(listaNavios, index);
+            for (int i = 0; i < 5; i++) {
+
+                String navioEscolhido = escolherNavioIA(listaNavios);
+
 
                 //busca navio
                 Navio navio = Navio.buscarNavioByNome(navioEscolhido);
@@ -205,6 +207,7 @@ public class Jogo {
                     if (!posicionaBarco) {
                         posicionado = false;
                     }else{
+                        posicionado = true;
                         break;
                     }
                 }
@@ -249,11 +252,12 @@ public class Jogo {
 
     }
 
-    public static String escolherNavioIA(HashMap<Integer, String> listaNavios, int index){
+    public static String escolherNavioIA(HashMap<Integer, String> listaNavios){
 
-        String navioEscolhido = listaNavios.get(index);
+        int primeiroKey = listaNavios.keySet().iterator().next();
+        String navioEscolhido = listaNavios.get(primeiroKey);
 
-        listaNavios.remove(index);
+        listaNavios.remove(primeiroKey);
         return navioEscolhido;
 
     }
@@ -425,10 +429,12 @@ public class Jogo {
 
             }
 
+            int linha = 0;
+            int coluna = 0;
+
             System.out.println("Escolha a cordenada para atacar !");
             if (jogadorEscolhidoJogar == 1){
 
-                int linha;
                 while (true) {
 
                     System.out.println("Informe a posição da linha [0-9] : ");
@@ -448,7 +454,6 @@ public class Jogo {
                     }
                 }
 
-                int coluna;
                 while (true) {
 
                     System.out.println("Informe a posição da coluna [0-9] : ");
@@ -469,8 +474,10 @@ public class Jogo {
 
             } else if (jogadorEscolhidoJogar == 2) {
 
-                int linha = random.nextInt(10);
-                int coluna = random.nextInt(10);
+                linha = random.nextInt(10);
+                coluna = random.nextInt(10);
+
+
 
 
             }
