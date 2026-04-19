@@ -60,7 +60,6 @@ public class Jogo {
                 System.out.println("Tabuleira da IA:");
                 jogador2.getTabuleiro().mostraMatrizPrincipal();
 
-                int sdsd = 8;
 
 
             }
@@ -89,7 +88,7 @@ public class Jogo {
             iniciaBatalha(jogadorEscolhidoJogar, scanner);
         }*/
 
-        scanner.close();
+
 
     }
 
