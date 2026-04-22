@@ -26,7 +26,7 @@ public class Jogo {
 
         HashMap<Integer, String> listaNavios = new HashMap<>();
 
-        /*listaNavios.put(1, "Submarino");
+        listaNavios.put(1, "Submarino");
         listaNavios.put(2, "Destroyer");
         listaNavios.put(3, "Porta aviões");
         listaNavios.put(4, "Encoracado");
@@ -43,7 +43,10 @@ public class Jogo {
             System.out.println("Pressione para confirmar.");
             scanner.nextLine();
             UtilsConsole.limpaTela();
-        }*/
+        }
+
+
+        System.out.println("----PREPARAÇÃO DO JOGADOR 2----");
 
         listaNavios.put(1, "Submarino");
         listaNavios.put(2, "Destroyer");
@@ -51,17 +54,29 @@ public class Jogo {
         listaNavios.put(4, "Encoracado");
         listaNavios.put(5, "Cruzado");
 
-        System.out.println("----PREPARAÇÃO DO JOGADOR 2----");
         if (isIA){
-            boolean preparaIa = preparaIa(jogador2, listaNavios);
+            boolean preparaIa = preparaJogador(jogador2, listaNavios);
 
             if (preparaIa){
-                System.out.println("IA posicionada !!");
-                System.out.println("Tabuleira da IA:");
-                jogador2.getTabuleiro().mostraMatrizPrincipal();
 
+                System.out.print("A IA esta posicionando seus barcos, aguarde ");
+                for (int j = 0; j < 3; j++){
+                    System.out.print(".");
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
 
+                System.out.println("\nIA posicionada.");
 
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                UtilsConsole.limpaTela();
             }
 
         }else {
@@ -82,142 +97,111 @@ public class Jogo {
 
         int jogadorEscolhidoJogar = random.nextInt(2) + 1;
 
-        /*if (isIA){
+        if (isIA){
             iniciaBatalhaIA(jogadorEscolhidoJogar, scanner);
         }else{
             iniciaBatalha(jogadorEscolhidoJogar, scanner);
-        }*/
-
-
+        }
 
     }
 
     public static boolean preparaJogador(Jogador jogador, Scanner scanner, HashMap<Integer, String> listaNavios) {
-        boolean posicionado = true;
 
-        while (true) {
+        for (int i = 0; i < 5; i++) {
 
-            for (int i = 0; i < 5; i++) {
+            System.out.println("Posicione seus barcos no tabuleiro.");
+            jogador.getTabuleiro().mostraMatrizPrincipal();
+            String navioEscolhido = escolherNavio(scanner, listaNavios);
+            Navio navio = Navio.buscarNavioDaFrota(navioEscolhido, jogador.getNavio());
 
-                System.out.println("Posicione seus barcos no tabuleiro.");
+            while (true) {
+                int linha;
+                while (true) {
 
-                jogador.getTabuleiro().mostraMatrizPrincipal();
-
-                String navioEscolhido = escolherNavio(scanner, listaNavios);
-
-                //busca navio
-                Navio navio = Navio.buscarNavioByNome(navioEscolhido);
-
-                while (true){
-
-                    int linha;
-                    while (true) {
-
-                        System.out.println("Informe a posição da linha [0-9] : ");
-
-                        while (!scanner.hasNextInt()) {
-                            System.out.println("Erro: Entrada inválida! Digite um número entre 0 e 9 para a linha:");
-                            scanner.next();
-                        }
-                        linha = scanner.nextInt();
-
-                        boolean erroLinha = UtilsConsole.validaLinha(linha);
-
-                        if (!erroLinha) {
-                            UtilsConsole.limpaTela();
-                        } else {
-                            break;
-                        }
+                    System.out.println("Informe a posição da linha [0-9] : ");
+                    while (!scanner.hasNextInt()) {
+                        System.out.println("Erro: Entrada inválida! Digite um número entre 0 e 9 para a linha:");
+                        scanner.next();
                     }
+                    linha = scanner.nextInt();
 
-                    int coluna;
-                    while (true) {
+                    boolean erroLinha = UtilsConsole.validaLinha(linha);
 
-                        System.out.println("Informe a posição da coluna [0-9] : ");
-                        while (!scanner.hasNextInt()) {
-                            System.out.println("Erro: Entrada inválida! Digite um número entre 0 e 9 para a coluna:");
-                            scanner.next();
-                        }
-                        coluna = scanner.nextInt();
-
-                        boolean erroColuna = UtilsConsole.validaColuna(linha);
-
-                        if (!erroColuna) {
-                            UtilsConsole.limpaTela();
-                        } else {
-                            break;
-                        }
-                    }
-                    scanner.nextLine();
-                    String orientacao;
-                    while (true) {
-                        System.out.println("Informe a orientação (H para horizontal) ou (V para vertical) :");
-                        orientacao = scanner.nextLine().toUpperCase();
-
-                        boolean erroPosicao = UtilsConsole.validaPosicao(orientacao);
-
-                        if (!erroPosicao){
-                            UtilsConsole.limpaTela();
-                        }else{
-                            break;
-                        }
-                    }
-
-                    boolean posicionaBarco = jogador.getTabuleiro().posicionaBarco(linha, coluna, orientacao, navio, scanner);
-
-                    if (!posicionaBarco) {
-                        posicionado = false;
-                        System.out.println("Tente posicionar o barco " + navioEscolhido + " novamente.");
+                    if (!erroLinha) {
+                        UtilsConsole.limpaTela();
                         jogador.getTabuleiro().mostraMatrizPrincipal();
-
-                    }else{
+                    } else {
                         break;
                     }
                 }
-            }
-            if (posicionado){
-                break;
+
+                int coluna;
+                while (true) {
+
+                    System.out.println("Informe a posição da coluna [0-9] : ");
+                    while (!scanner.hasNextInt()) {
+                        System.out.println("Erro: Entrada inválida! Digite um número entre 0 e 9 para a coluna:");
+                        scanner.next();
+                    }
+                    coluna = scanner.nextInt();
+
+                    boolean erroColuna = UtilsConsole.validaColuna(coluna);
+
+                    if (!erroColuna) {
+                        UtilsConsole.limpaTela();
+                        jogador.getTabuleiro().mostraMatrizPrincipal();
+                    } else {
+                        break;
+                    }
+                }
+
+                scanner.nextLine();
+                String orientacao;
+
+                while (true) {
+                    System.out.println("Informe a orientação (H para horizontal) ou (V para vertical) :");
+                    orientacao = scanner.nextLine().toUpperCase();
+
+                    boolean erroPosicao = UtilsConsole.validaPosicao(orientacao);
+
+                    if (!erroPosicao) {
+                        UtilsConsole.limpaTela();
+                        jogador.getTabuleiro().mostraMatrizPrincipal();
+                    } else {
+                        break;
+                    }
+                }
+
+                boolean posicionaBarco = jogador.getTabuleiro().posicionaBarco(linha, coluna, orientacao, navio, scanner);
+
+                if (posicionaBarco) {
+                    break;
+                } else {
+                    System.out.println("Tente posicionar o barco " + navioEscolhido + " novamente.");
+                    jogador.getTabuleiro().mostraMatrizPrincipal();
+                }
             }
         }
-
         return true;
     }
 
-    public static boolean preparaIa(Jogador jogador, HashMap<Integer, String> listaNavios) {
+    public static boolean preparaJogador(Jogador jogador, HashMap<Integer, String> listaNavios) {
+        for (int i = 0; i < 5; i++) {
 
-        boolean posicionado = true;
+            String navioEscolhido = escolherNavio(listaNavios);
+            Navio navio = Navio.buscarNavioDaFrota(navioEscolhido, jogador.getNavio());
 
-        while (true) {
+            while (true) {
+                int linha = random.nextInt(10);
+                int coluna = random.nextInt(10);
+                String orientacao = String.valueOf(random.nextBoolean() ? 'V' : 'H');
 
-            for (int i = 0; i < 5; i++) {
-
-                String navioEscolhido = escolherNavioIA(listaNavios);
-
-
-                //busca navio
-                Navio navio = Navio.buscarNavioByNome(navioEscolhido);
-
-                while (true){
-
-                    int linha = random.nextInt(10);
-                    int coluna = random.nextInt(10);
-                    String orientacao = String.valueOf(random.nextBoolean()? 'V' : 'H');
-
-                    boolean posicionaBarco = jogador.getTabuleiro().posicionaBarcoIA(linha, coluna, orientacao, navio);
-
-                    if (!posicionaBarco) {
-                        posicionado = false;
-                    }else{
-                        posicionado = true;
-                        break;
-                    }
+                boolean posicionaBarco = jogador.getTabuleiro().posicionaBarco(linha, coluna, orientacao, navio);
+                if (posicionaBarco) {
+                    break;
                 }
             }
-            if (posicionado){
-                break;
-            }
         }
-
         return true;
     }
 
@@ -253,7 +237,7 @@ public class Jogo {
 
     }
 
-    public static String escolherNavioIA(HashMap<Integer, String> listaNavios){
+    public static String escolherNavio(HashMap<Integer, String> listaNavios){
 
         int primeiroKey = listaNavios.keySet().iterator().next();
         String navioEscolhido = listaNavios.get(primeiroKey);
@@ -268,7 +252,7 @@ public class Jogo {
         System.out.println("Jogador " + jogadorEscolhidoJogar + " começa a batalha !!!");
 
         try {
-            Thread.sleep(1500);
+            Thread.sleep(2500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -276,109 +260,83 @@ public class Jogo {
 
         while (true){
 
+            UtilsConsole.limpaTela();
+            System.out.print("Vez do jogador: ");
             if (jogadorEscolhidoJogar == 1) {
-                System.out.println("Tabuleiro do jogador 2");
+                System.out.print("1\n");
+
+                System.out.println("\nTabuleiro do jogador 1:");
+                jogador1.getTabuleiro().mostraMatrizPrincipal();
+                mostraStatusNavios(jogador1, "Jogador 1");
+
+                System.out.println("Tabuleiro do oponete:");
                 jogador2MatrizTemplate.getTabuleiro().mostraMatrizPrincipal();
 
-            }else if (jogadorEscolhidoJogar == 2) {
-                System.out.println("Tabuleiro do jogador 1");
-                jogador1MatrizTemplate.getTabuleiro().mostraMatrizPrincipal();
+            } else {
+                System.out.print("2\n");
 
+                System.out.println("\nTabuleiro do jogador 2:");
+                jogador2.getTabuleiro().mostraMatrizPrincipal();
+                mostraStatusNavios(jogador2, "Jogador 2");
+
+                System.out.println("Tabuleiro do oponete:");
+                jogador1MatrizTemplate.getTabuleiro().mostraMatrizPrincipal();
             }
 
             System.out.println("Escolha a cordenada para atacar !");
 
             int linha;
             while (true) {
-
-                System.out.println("Informe a posição da linha [0-9] : ");
-
+                System.out.println("Informe a posição da linha [0-9]: ");
                 while (!scanner.hasNextInt()) {
                     System.out.println("Erro: Entrada inválida! Digite um número entre 0 e 9 para a linha:");
                     scanner.next();
                 }
                 linha = scanner.nextInt();
-
-                boolean erroLinha = UtilsConsole.validaLinha(linha);
-
-                if (!erroLinha) {
-                    UtilsConsole.limpaTela();
-                } else {
+                if (UtilsConsole.validaLinha(linha)) {
                     break;
                 }
+                System.out.println("Linha inválida, tente novamente.");
             }
 
             int coluna;
             while (true) {
-
-                System.out.println("Informe a posição da coluna [0-9] : ");
+                System.out.println("Informe a posição da coluna [0-9]: ");
                 while (!scanner.hasNextInt()) {
                     System.out.println("Erro: Entrada inválida! Digite um número entre 0 e 9 para a coluna:");
                     scanner.next();
                 }
                 coluna = scanner.nextInt();
-
-                boolean erroColuna = UtilsConsole.validaColuna(coluna);
-
-                if (!erroColuna) {
-                    UtilsConsole.limpaTela();
-                } else {
+                if (UtilsConsole.validaColuna(coluna)) {
                     break;
                 }
+                System.out.println("Coluna inválida, tente novamente.");
             }
 
             Boolean acertouNavio = atacarTabuleiro(linha, coluna, jogadorEscolhidoJogar);
 
-            if (acertouNavio) {
+            if (acertouNavio == null) {
+                System.out.println("Você já atirou nesta posição! Trocando de jogador...");
+                jogadorEscolhidoJogar = (jogadorEscolhidoJogar == 1) ? 2 : 1;
+            } else if (acertouNavio) {
                 System.out.println("Belo tiro! Você joga novamente.");
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                UtilsConsole.limpaTela();
-
-
-            } else if (acertouNavio == false) {
+            } else {
                 System.out.println("Água! Trocando de jogador...");
                 jogadorEscolhidoJogar = (jogadorEscolhidoJogar == 1) ? 2 : 1;
+            }
 
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                UtilsConsole.limpaTela();
-            }else if (acertouNavio == null) {
-                System.out.println("Voçê já atirou nesta posição !");
-                jogadorEscolhidoJogar = (jogadorEscolhidoJogar == 1) ? 2 : 1;
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                UtilsConsole.limpaTela();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
             if (jogador2.getNavio().getDestroyer().getVida() == 0
                     && jogador2.getNavio().getEncaracado().getVida() == 0
                     && jogador2.getNavio().getCruzador().getVida() == 0
                     && jogador2.getNavio().getPortaAvioes().getVida() == 0
-                    && jogador2.getNavio().getSubmarino().getVida() == 0){
+                    && jogador2.getNavio().getSubmarino().getVida() == 0) {
                 System.out.println("Jogador 1 venceu !!!!");
-
-                System.out.println("Retornando ao menu ");
-                for (int i = 0; i < 3; i++){
-                    System.out.print(".");
-                    try {
-                        Thread.sleep(1250);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                UtilsConsole.limpaTela();
-
                 break;
             }
 
@@ -386,182 +344,153 @@ public class Jogo {
                     && jogador1.getNavio().getEncaracado().getVida() == 0
                     && jogador1.getNavio().getCruzador().getVida() == 0
                     && jogador1.getNavio().getPortaAvioes().getVida() == 0
-                    && jogador1.getNavio().getSubmarino().getVida() == 0){
+                    && jogador1.getNavio().getSubmarino().getVida() == 0) {
                 System.out.println("Jogador 2 venceu !!!!");
-
-                System.out.println("Retornando ao menu ");
-                for (int i = 0; i < 3; i++){
-                    System.out.print(".");
-                    try {
-                        Thread.sleep(1250);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                UtilsConsole.limpaTela();
-
                 break;
             }
-
         }
+
+        System.out.print("Retornando ao menu ");
+        for (int i = 0; i < 3; i++) {
+            System.out.print(".");
+            try {
+                Thread.sleep(1250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        UtilsConsole.limpaTela();
     }
 
-    public static void iniciaBatalhaIA(int jogadorEscolhidoJogar, Scanner scanner){
+    public static void iniciaBatalhaIA(int jogadorEscolhidoJogar, Scanner scanner) {
 
-        System.out.println("Jogador " + jogadorEscolhidoJogar + " começa a batalha !!!");
+        if (jogadorEscolhidoJogar == 2){
+            System.out.println("IA começa a batalha !!!");
+        } else {
+            System.out.println("Jogador 1 começa a batalha !!!");
+        }
 
         try {
-            Thread.sleep(1500);
+            Thread.sleep(2500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        UtilsConsole.limpaTela();
 
-        while (true){
+        jogador2.getTabuleiro().mostraMatrizPrincipal();
 
+        while (true) {
+
+            UtilsConsole.limpaTela();
+            System.out.print("Vez do jogador: ");
             if (jogadorEscolhidoJogar == 1) {
-                System.out.println("Tabuleiro do jogador 2");
-                jogador2MatrizTemplate.getTabuleiro().mostraMatrizPrincipal();
-
-            }else if (jogadorEscolhidoJogar == 2) {
-                System.out.println("Tabuleiro do jogador 1");
-                jogador1MatrizTemplate.getTabuleiro().mostraMatrizPrincipal();
-
+                System.out.print("Jogador 1\n");
+            } else {
+                System.out.print("IA\n");
             }
+
+            System.out.println("\nSeu tabuleiro Jogador 1:");
+            jogador1.getTabuleiro().mostraMatrizPrincipal();
+            mostraStatusNavios(jogador1, "Jogador 1");
+
+            System.out.println("\nTabuleiro da IA:");
+            jogador2MatrizTemplate.getTabuleiro().mostraMatrizPrincipal();
+            mostraStatusNavios(jogador2, "IA");
 
             int linha = 0;
             int coluna = 0;
 
-            System.out.println("Escolha a cordenada para atacar !");
-            if (jogadorEscolhidoJogar == 1){
-
+            if (jogadorEscolhidoJogar == 1) {
+                System.out.println("\nEscolha a coordenada para atacar!");
                 while (true) {
-
-                    System.out.println("Informe a posição da linha [0-9] : ");
-
+                    System.out.println("Informe a posição da linha [0-9]: ");
                     while (!scanner.hasNextInt()) {
                         System.out.println("Erro: Entrada inválida! Digite um número entre 0 e 9 para a linha:");
                         scanner.next();
                     }
                     linha = scanner.nextInt();
-
-                    boolean erroLinha = UtilsConsole.validaLinha(linha);
-
-                    if (!erroLinha) {
-                        UtilsConsole.limpaTela();
-                    } else {
+                    if (UtilsConsole.validaLinha(linha)) {
                         break;
                     }
+                    System.out.println("Linha inválida, tente novamente.");
                 }
 
                 while (true) {
-
-                    System.out.println("Informe a posição da coluna [0-9] : ");
+                    System.out.println("Informe a posição da coluna [0-9]: ");
                     while (!scanner.hasNextInt()) {
                         System.out.println("Erro: Entrada inválida! Digite um número entre 0 e 9 para a coluna:");
                         scanner.next();
                     }
                     coluna = scanner.nextInt();
-
-                    boolean erroColuna = UtilsConsole.validaColuna(coluna);
-
-                    if (!erroColuna) {
-                        UtilsConsole.limpaTela();
-                    } else {
+                    if (UtilsConsole.validaColuna(coluna)) {
                         break;
                     }
+                    System.out.println("Coluna inválida, tente novamente.");
                 }
 
-            } else if (jogadorEscolhidoJogar == 2) {
+            } else {
 
                 linha = random.nextInt(10);
                 coluna = random.nextInt(10);
 
-
-
-
-            }
-
-
-            Boolean acertouNavio = atacarTabuleiro(linha, coluna, jogadorEscolhidoJogar);
-
-            if (acertouNavio) {
-                System.out.println("Belo tiro! Você joga novamente.");
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                UtilsConsole.limpaTela();
-
-
-            } else if (acertouNavio == false) {
-                System.out.println("Água! Trocando de jogador...");
-                jogadorEscolhidoJogar = (jogadorEscolhidoJogar == 1) ? 2 : 1;
-
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                UtilsConsole.limpaTela();
-            }else if (acertouNavio == null) {
-                System.out.println("Voçê já atirou nesta posição !");
-                jogadorEscolhidoJogar = (jogadorEscolhidoJogar == 1) ? 2 : 1;
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                UtilsConsole.limpaTela();
-            }
-
-            if (jogador1.getNavio().getDestroyer().getVida() == 0
-                    && jogador1.getNavio().getEncaracado().getVida() == 0
-                    && jogador1.getNavio().getCruzador().getVida() == 0
-                    && jogador1.getNavio().getPortaAvioes().getVida() == 0
-                    && jogador1.getNavio().getSubmarino().getVida() == 0){
-                System.out.println("Jogador 2 venceu !!!!");
-
-                System.out.println("Retornando ao menu ");
-                for (int i = 0; i < 3; i++){
+                System.out.print("\nIA atacando ");
+                for (int i = 0; i < 3; i++) {
                     System.out.print(".");
                     try {
-                        Thread.sleep(1250);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
+                System.out.println();
+            }
 
-                UtilsConsole.limpaTela();
+            Boolean acertouNavio = atacarTabuleiro(linha, coluna, jogadorEscolhidoJogar);
 
-                break;
+            if (acertouNavio == null) {
+                System.out.println("Você já atirou nesta posição! Trocando de jogador...");
+                jogadorEscolhidoJogar = (jogadorEscolhidoJogar == 1) ? 2 : 1;
+            } else if (acertouNavio) {
+                System.out.println("Belo tiro! Você joga novamente.");
+            } else {
+                System.out.println("Água! Trocando de jogador...");
+                jogadorEscolhidoJogar = (jogadorEscolhidoJogar == 1) ? 2 : 1;
+            }
+
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
             if (jogador2.getNavio().getDestroyer().getVida() == 0
                     && jogador2.getNavio().getEncaracado().getVida() == 0
                     && jogador2.getNavio().getCruzador().getVida() == 0
                     && jogador2.getNavio().getPortaAvioes().getVida() == 0
-                    && jogador2.getNavio().getSubmarino().getVida() == 0){
+                    && jogador2.getNavio().getSubmarino().getVida() == 0) {
                 System.out.println("Jogador 1 venceu !!!!");
-
-                System.out.println("Retornando ao menu ");
-                for (int i = 0; i < 3; i++){
-                    System.out.print(".");
-                    try {
-                        Thread.sleep(1250);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                UtilsConsole.limpaTela();
-
                 break;
             }
 
+            if (jogador1.getNavio().getDestroyer().getVida() == 0
+                    && jogador1.getNavio().getEncaracado().getVida() == 0
+                    && jogador1.getNavio().getCruzador().getVida() == 0
+                    && jogador1.getNavio().getPortaAvioes().getVida() == 0
+                    && jogador1.getNavio().getSubmarino().getVida() == 0) {
+                System.out.println("IA venceu !!!!");
+                break;
+            }
         }
+
+        System.out.print("Retornando ao menu ");
+        for (int i = 0; i < 3; i++) {
+            System.out.print(".");
+            try {
+                Thread.sleep(1250);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        UtilsConsole.limpaTela();
     }
 
     public static Boolean atacarTabuleiro(int linha, int coluna, int jogadorEscolhidoJogar){
@@ -570,7 +499,6 @@ public class Jogo {
 
             char caracter = jogador2.getTabuleiro().getPosicao(linha, coluna);
 
-
             char caracterMatrizTemplate = jogador2MatrizTemplate.getTabuleiro().getPosicao(linha, coluna);
 
             if (caracterMatrizTemplate == '@' || caracterMatrizTemplate == 'X'){
@@ -578,32 +506,34 @@ public class Jogo {
             }
             if (caracter == '~'){
                 jogador2MatrizTemplate.getTabuleiro().setPosicao(linha, coluna, 'X');
+                jogador2.getTabuleiro().setPosicao(linha, coluna, 'X');
                 return false;
 
             }else if (caracter == 'B') {
 
                 jogador2MatrizTemplate.getTabuleiro().setPosicao(linha, coluna, '@');
+                jogador2.getTabuleiro().setPosicao(linha, coluna, '@');
 
 
                 Navio navio = jogador2.getTabuleiro().getPosicaoNavio(linha, coluna);
+
                 if (navio.getTipo().equals("Encoracado")){
-                    jogador2.getNavio().getEncaracado().setVida(navio.getVida() - 1);
+                    navio.setVida(navio.getVida() - 1);
                 }
                 if (navio.getTipo().equals("Destroyer")){
-                    jogador2.getNavio().getDestroyer().setVida(navio.getVida() - 1);
+                    navio.setVida(navio.getVida() - 1);
                 }
-                if (navio.getTipo().equals("Porta Aviões")){
-                    jogador2.getNavio().getPortaAvioes().setVida(navio.getVida() - 1);
+                if (navio.getTipo().equals("Porta aviões")){
+                    navio.setVida(navio.getVida() - 1);
                 }
                 if (navio.getTipo().equals("Submarino")){
-                    jogador2.getNavio().getSubmarino().setVida(navio.getVida() - 1);
+                    navio.setVida(navio.getVida() - 1);
                 }
                 if (navio.getTipo().equals("Cruzado")){
-                    jogador2.getNavio().getCruzador().setVida(navio.getVida() - 1);
+                    navio.setVida(navio.getVida() - 1);
                 }
 
                 return true;
-
             }
 
         }else if (jogadorEscolhidoJogar == 2){
@@ -618,35 +548,46 @@ public class Jogo {
             }
             if (caracter == '~'){
                 jogador1MatrizTemplate.getTabuleiro().setPosicao(linha, coluna, 'X');
+                jogador1.getTabuleiro().setPosicao(linha, coluna, 'X');
                 return false;
 
             }else if (caracter == 'B') {
 
                 jogador1MatrizTemplate.getTabuleiro().setPosicao(linha, coluna, '@');
-
+                jogador1.getTabuleiro().setPosicao(linha, coluna, '@');
 
                 Navio navio = jogador1.getTabuleiro().getPosicaoNavio(linha, coluna);
+
                 if (navio.getTipo().equals("Encoracado")){
-                    jogador1.getNavio().getEncaracado().setVida(navio.getVida() - 1);
+                    navio.setVida(navio.getVida() - 1);
                 }
                 if (navio.getTipo().equals("Destroyer")){
-                    jogador1.getNavio().getDestroyer().setVida(navio.getVida() - 1);
+                    navio.setVida(navio.getVida() - 1);
                 }
-                if (navio.getTipo().equals("Porta Aviões")){
-                    jogador1.getNavio().getPortaAvioes().setVida(navio.getVida() - 1);
+                if (navio.getTipo().equals("Porta aviões")){
+                    navio.setVida(navio.getVida() - 1);
                 }
                 if (navio.getTipo().equals("Submarino")){
-                    jogador1.getNavio().getSubmarino().setVida(navio.getVida() - 1);
+                    navio.setVida(navio.getVida() - 1);
                 }
                 if (navio.getTipo().equals("Cruzado")){
-                    jogador1.getNavio().getCruzador().setVida(navio.getVida() - 1);
+                    navio.setVida(navio.getVida() - 1);
                 }
 
                 return true;
-
             }
         }
 
         return null;
+    }
+
+    public static void mostraStatusNavios(Jogador jogador, String nomeJogador) {
+        System.out.println("---- Status dos navios do " + nomeJogador + " ----");
+        System.out.println("Submarino: " + jogador.getNavio().getSubmarino().getVida() + " vidas(s)");
+        System.out.println("Destroyer: " + jogador.getNavio().getDestroyer().getVida() + " vidas(s)");
+        System.out.println("Porta-aviões: " + jogador.getNavio().getPortaAvioes().getVida() + " vidas(s)");
+        System.out.println("Encouraçado: " + jogador.getNavio().getEncaracado().getVida() + " vidas(s)");
+        System.out.println("Cruzador: " + jogador.getNavio().getCruzador().getVida() + " vidas(s)");
+        System.out.println("------------------------------------");
     }
 }

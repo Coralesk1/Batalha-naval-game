@@ -12,7 +12,7 @@ public class UtilsConsole {
     public static boolean validaLinha(int linha){
 
         if(linha < 0 || linha > 10){
-            UtilsConsole.limpaTela();
+
             System.out.println("Erro: Linha inválida.");
 
             System.out.print("Aguarda para tentar novamente ");
@@ -32,7 +32,7 @@ public class UtilsConsole {
     public static boolean validaColuna(int coluna){
 
         if(coluna < 0 || coluna > 10){
-            UtilsConsole.limpaTela();
+
             System.out.println("Erro: Coluna inválida.");
 
             System.out.print("Aguarda para tentar novamente ");

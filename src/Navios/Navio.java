@@ -96,21 +96,13 @@ public class Navio {
         this.tipo = tipo;
     }
 
-    public static Navio buscarNavioByNome(String nome) {
 
-        List<Navio> listaNavioClass = new ArrayList<>();
-        listaNavioClass.add(new Encoracado());
-        listaNavioClass.add(new Destroyer());
-        listaNavioClass.add(new PortaAviao());
-        listaNavioClass.add(new Submarino());
-        listaNavioClass.add(new Cruzador());
-
-        for (Navio navio : listaNavioClass) {
-            if (navio.getTipo().equals(nome)) {
-                return navio;
-            }
-
-        }
+    public static Navio buscarNavioDaFrota(String nome, Navio frota) {
+        if (frota.getEncaracado().getTipo().equals(nome)) return frota.getEncaracado();
+        if (frota.getDestroyer().getTipo().equals(nome)) return frota.getDestroyer();
+        if (frota.getPortaAvioes().getTipo().equals(nome)) return frota.getPortaAvioes();
+        if (frota.getSubmarino().getTipo().equals(nome)) return frota.getSubmarino();
+        if (frota.getCruzador().getTipo().equals(nome)) return frota.getCruzador();
 
         return null;
     }

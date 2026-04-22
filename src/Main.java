@@ -20,11 +20,13 @@ void main() {
         switch (escolha) {
             case 1:
                 Jogo.iniciarJogo(scanner, false);
+                break;
             case 2:
                 Jogo.iniciarJogo(scanner, true);
                 break;
             case 3:
                 regras.mostrarRegras(scanner);
+                break;
             case 4:
                 System.out.println("Obrigado por jogar!");
                 scanner.close();

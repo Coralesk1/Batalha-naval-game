@@ -1,7 +1,5 @@
 import Navios.Navio;
 import Utils.UtilsConsole;
-
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class Tabuleiro {
@@ -14,7 +12,7 @@ public class Tabuleiro {
     private final Navio[][] gradeNavios = new Navio[10][10];
 
     public Tabuleiro() {
-        // Inicializa a matriz com água quando o tabuleiro é criado
+        // inicializa a matriz com água toda vez que o tabuleiro é criado
         for (int i = 0; i < TAMANHO; i++) {
             for (int j = 0; j < TAMANHO; j++) {
                 matriz[i][j] = AGUA;
@@ -140,6 +138,7 @@ public class Tabuleiro {
             }
         }
 
+        UtilsConsole.limpaTela();
         System.out.println("Barco posicionado em (" + linha + ", " + coluna + ") com orientação " + orientacao + "\n");
 
         mostraMatrizPrincipal();
@@ -151,11 +150,11 @@ public class Tabuleiro {
         return true;
     }
 
-    public boolean posicionaBarcoIA(int linha, int coluna, String orientacao, Navio navio){
+    public boolean posicionaBarco(int linha, int coluna, String orientacao, Navio navio){
         int tamanhoBarco = navio.getTamanho();
 
-        // Validação de limites e sobreposição
-        if (orientacao.equalsIgnoreCase("H")) { // Horizontal
+
+        if (orientacao.equalsIgnoreCase("H")) {
 
             if (coluna + tamanhoBarco > TAMANHO) {
                 return false;
@@ -175,7 +174,7 @@ public class Tabuleiro {
                 gradeNavios[linha][coluna + j] =  navio;
             }
 
-        } else if (orientacao.equalsIgnoreCase("V")) { // Vertical
+        } else if (orientacao.equalsIgnoreCase("V")) {
 
             if (linha + tamanhoBarco > TAMANHO) {
                 return false;
@@ -192,7 +191,7 @@ public class Tabuleiro {
             // Posiciona o barco
             for (int i = 0; i < tamanhoBarco; i++) {
                 matriz[linha + i][coluna] = BARCO;
-                gradeNavios[linha + 1][coluna] = navio;
+                gradeNavios[linha + i][coluna] = navio;
             }
 
         }
@@ -201,15 +200,15 @@ public class Tabuleiro {
     }
 
     public void mostraMatrizPrincipal(){
-        System.out.print("   "); // Espaço para o número da linha
+        System.out.print("   ");
         for (int j = 0; j < TAMANHO; j++) {
             System.out.print(j + " ");
         }
         System.out.println();
 
-        for(int i = 0; i < TAMANHO; i++){ // Itera sobre as linhas
-            System.out.print(i + "  "); // Imprime o número da linha
-            for(int j = 0; j < TAMANHO; j++){ // Itera sobre as colunas
+        for(int i = 0; i < TAMANHO; i++){
+            System.out.print(i + "  ");
+            for(int j = 0; j < TAMANHO; j++){
                 System.out.print(matriz[i][j] + " ");
             }
             System.out.println();
