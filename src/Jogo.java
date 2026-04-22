@@ -429,8 +429,17 @@ public class Jogo {
 
             } else {
 
-                linha = random.nextInt(10);
-                coluna = random.nextInt(10);
+                while(true){
+
+                    linha = random.nextInt(10);
+                    coluna = random.nextInt(10);
+
+                    char caracterMatrizTemplate = jogador1MatrizTemplate.getTabuleiro().getPosicao(linha, coluna);
+
+                    if(caracterMatrizTemplate != '@' && caracterMatrizTemplate != 'X') {
+                        break;
+                    }
+                }
 
                 System.out.print("\nIA atacando ");
                 for (int i = 0; i < 3; i++) {
