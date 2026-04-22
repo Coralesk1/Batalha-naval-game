@@ -134,7 +134,7 @@ public class Tabuleiro {
             // Posiciona o barco
             for (int i = 0; i < tamanhoBarco; i++) {
                 matriz[linha + i][coluna] = BARCO;
-                gradeNavios[linha + 1][coluna] = navio;
+                gradeNavios[linha + i][coluna] = navio;
             }
         }
 

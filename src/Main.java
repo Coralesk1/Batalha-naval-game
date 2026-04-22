@@ -28,7 +28,7 @@ void main() {
                 regras.mostrarRegras(scanner);
                 break;
             case 4:
-                System.out.println("Obrigado por jogar!");
+                System.out.println("Obrigado por jogar <3 !");
                 scanner.close();
                 return;
             default:
