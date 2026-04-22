@@ -1,43 +1,42 @@
-Battle Chip - Batalha Naval
-Projeto desenvolvido para a disciplina de Programação Avançada do curso de Ciência da Computação na Universidade Tuiuti do Paraná (UTP).
+# ⚓ Battle Chip - Batalha Naval
 
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Concluído-brightgreen?style=for-the-badge)
 
-Pré-requisitos Técnicos
-    - JDK: Java 21 ou superior.
-    - IDE Recomendada: IntelliJ IDEA ou VS Code com extensões Java.
+Projeto desenvolvido para a disciplina de **Programação Avançada** do curso de Ciência da Computação na **Universidade Tuiuti do Paraná (UTP)**. O sistema simula o clássico jogo de Batalha Naval com foco em conceitos sólidos de Orientação a Objetos.
 
-Como Executar
-    O projeto está organizado em pacotes. Siga os passos abaixo para rodar:
+---
 
-    - Via IDE (IntelliJ, VS Code ou Eclipse):
+## 🎮 Modos de Jogo
 
-        - Abra a pasta raiz do projeto.
+* **Human vs Human (1 vs 1):** Partida local para dois jogadores.
+* **Human vs CPU (1 vs PC):** Desafie uma Inteligência Artificial com sistema de memória que impede disparos repetidos na mesma coordenada.
 
-        - Localize o arquivo Main.java na raiz e execute-o.
+---
 
-    - Via Terminal:
+## 🛠️ Pré-requisitos Técnicos
 
-        - Navegue até a pasta do projeto.
+* **Linguagem:** Java 21 ou superior.
+* **Recursos Utilizados:** Instance Main Methods (JEP 445), Encapsulamento, Herança e Polimorfismo.
+* **IDE Recomendada:** IntelliJ IDEA, VS Code ou Eclipse.
 
-        - Compile o arquivo principal: javac Main.java
+---
 
-        - Execute o programa: java Main
+## 🚀 Como Executar
 
-- Modos de Jogo
-    1 vs 1: Partida local para dois jogadores humanos.
+### Via IDE (Recomendado)
+1. Clone este repositório ou baixe o arquivo `.zip`.
+2. Abra a pasta raiz no seu ambiente de desenvolvimento.
+3. Localize o arquivo `src/Main.java`.
+4. Execute o método `main`.
 
-    1 vs PC: Partida contra a Inteligência Artificial. A IA possui um sistema de memória para não repetir tiros em coordenadas já atacadas.
+### Via Terminal
+```bash
+# Entre na pasta do projeto
+cd Batalha-naval-game
 
-- Organização do Projeto
-   O código está dividido nas seguintes estruturas:
+# Compile o projeto (o Java 21 gerencia os pacotes)
+javac src/Main.java
 
-    Raiz: Contém as classes principais de controle (Main, Jogo, Jogador, Tabuleiro).
-
-    Pacote Navios: Contém a classe base Navio e as especializações (Submarino, Destroyer, Cruzador, Encouraçado e Porta-Aviões).
-
-    Pacote Utils: Classes de suporte para limpeza de console e validações de dados.
-
-    Pacote Regras: Instruções detalhadas de como jogar.
-
-- Documentação Adicional
-    Para detalhes sobre as decisões de projeto, uso de referências de memória e conceitos de Orientação a Objetos aplicados, consulte o Relatório Técnico incluído no arquivo de entrega.
+# Execute o programa
+java -cp src Main
